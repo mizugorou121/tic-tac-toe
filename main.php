@@ -18,4 +18,11 @@ echo "1:○、2:×/n";
 $playerPiece = trim(fgets(STDIN));
 
 
+if ($playerPiece = 1) {
+    $cpuPiece = 2;
+}
+else {
+    $cpu = 1;
+}
+
 echo "場所を指定してください！";
