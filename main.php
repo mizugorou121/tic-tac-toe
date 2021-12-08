@@ -36,9 +36,17 @@ function setPiece (): array {
 $setTurnArray = setTurn ();
 $setPieceArray = setPiece();
 
-$first = array(0,0,0);
-$second = array(0,0,0);
-$third = array(0,0,0);
-$pieceArray = array($first,$second,$third);
+$pieceArray = [
+    [0,0,0],
+    [0,0,0],
+    [0,0,0]
+];
 
-echo "場所を指定してください！";
+function selectPlace (): array {
+    echo "縦の位置を0~2で入力してください！";
+    $length = trim(fgets(STDIN));
+
+    echo "横の位置を0~2で入力してください！";
+    $width = trim(fgets(STDIN));
+    return[$length,$width];
+}
