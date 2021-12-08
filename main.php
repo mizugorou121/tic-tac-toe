@@ -32,16 +32,6 @@ function setPiece (): array {
     return [$playerPiece, $cpuPiece];
 }
 
-// 関数を使う
-$setTurnArray = setTurn ();
-$setPieceArray = setPiece();
-
-$pieceArray = [
-    [0,0,0],
-    [0,0,0],
-    [0,0,0]
-];
-
 function selectPlace (): array {
     echo "縦の位置を0~2で入力してください！";
     $length = trim(fgets(STDIN));
@@ -50,3 +40,19 @@ function selectPlace (): array {
     $width = trim(fgets(STDIN));
     return[$length,$width];
 }
+
+// 関数を使う
+$setTurnArray = setTurn();
+$setPieceArray = setPiece();
+$selectPlaceArray = selectPlace();
+
+$pieceArray = [
+    [0,0,0],
+    [0,0,0],
+    [0,0,0]
+];
+
+$uerPiece = $setPieceArray[0];
+$length = $selectPlaceArray[0];
+$width = $selectPlaceArray[1];
+$pieceArray[$length][$width] = $uerPiece;
