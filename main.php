@@ -5,8 +5,8 @@ function setTurn (): array{
     echo "1:先攻,2:後攻\n";
     $player = trim(fgets(STDIN));
     
-    if ($player = 1) {
-        $cpu = "2";
+    if ($player == 1) {
+        $cpu = 2;
     }
     else {
         $cpu = 1;
@@ -15,13 +15,12 @@ function setTurn (): array{
 }
 
 function setPiece (): array {
-    echo "○がいいですか？×がいいですか？/n";
-    echo "1:○、2:×/n";
-    $playerPiece = trim(fgets(STDIN));
+    echo "○がいいですか？×がいいですか？\n";
+    echo "1:○、2:×\n";
 
     $selectInput = trim(fgets(STDIN));
 
-    if ($selectInput = 1) {
+    if ($selectInput == 1) {
         $playerPiece = 'o';
         $cpuPiece    = 'x';
     }
@@ -56,3 +55,13 @@ $uerPiece = $setPieceArray[0];
 $length = $selectPlaceArray[0];
 $width = $selectPlaceArray[1];
 $pieceArray[$length][$width] = $uerPiece;
+echo $length;
+echo $width;
+echo $pieceArray[$length][$width];
+
+for ($i=0; $i < 3; $i++) { 
+    if ($i == $length) {
+        $pieceArray[$i][$width] = $uerPiece;
+    }
+    // $pieceArray[$i]
+}
