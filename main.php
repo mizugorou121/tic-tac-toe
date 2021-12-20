@@ -32,10 +32,10 @@ function setPiece (): array {
 }
 
 function selectPlace (): array {
-    echo "縦の位置を0~2で入力してください！";
+    echo "縦の位置を0~2で入力してください！\n";
     $length = trim(fgets(STDIN));
 
-    echo "横の位置を0~2で入力してください！";
+    echo "横の位置を0~2で入力してください！\n";
     $width = trim(fgets(STDIN));
     return[$length,$width];
 }
@@ -55,13 +55,32 @@ $uerPiece = $setPieceArray[0];
 $length = $selectPlaceArray[0];
 $width = $selectPlaceArray[1];
 $pieceArray[$length][$width] = $uerPiece;
-echo $length;
-echo $width;
-echo $pieceArray[$length][$width];
+// echo $length;
+// echo $width;
+// echo $pieceArray[$length][$width];
 
 for ($i=0; $i < 3; $i++) { 
-    if ($i == $length) {
-        $pieceArray[$i][$width] = $uerPiece;
+
+    for ($j=0; $j < 3; $j++) { 
+
+        if ($pieceArray[$i][$j] == 0) {
+            if ($j == 3) {
+                echo "-\n";
+            }
+            else {
+                echo "-";
+            } 
+        }
+        else {
+            if ($j == 3) {
+                echo $pieceArray[$i][$j];
+                echo "\n";
+            }
+            else {
+                echo $pieceArray[$i][$j];
+            }
+        }
+
     }
-    // $pieceArray[$i]
+    $j = 0;
 }
