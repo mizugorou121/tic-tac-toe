@@ -15,6 +15,8 @@ function setTurn (): array{
 }
 
 function setPiece (): array {
+    $playerPiece = 'x';
+    $cpuPiece    = 'o';
     echo "○がいいですか？×がいいですか？\n";
     echo "1:○、2:×\n";
 
@@ -24,10 +26,7 @@ function setPiece (): array {
         $playerPiece = 'o';
         $cpuPiece    = 'x';
     }
-    else {
-        $playerPiece = 'x';
-        $cpuPiece    = 'o';
-    }
+
     return [$playerPiece, $cpuPiece];
 }
 
