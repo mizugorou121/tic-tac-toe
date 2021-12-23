@@ -39,6 +39,19 @@ function selectPlace (): array {
     $width = trim(fgets(STDIN));
     return[$length,$width];
 }
+function display (array $pieceArray): void {
+    for ($i=0; $i < 3; $i++) { 
+        for ($j=0; $j < 3; $j++) { 
+            if ($pieceArray[$i][$j] === 0) {
+                echo "-";
+            }
+            else {
+                echo $pieceArray[$i][$j];
+            }
+        }
+        echo "\n";
+    }
+}
 
 // 関数を使う
 $setTurnArray = setTurn();
@@ -51,36 +64,9 @@ $pieceArray = [
     [0,0,0]
 ];
 
-$uerPiece = $setPieceArray[0];
+$userPiece = $setPieceArray[0];
 $length = $selectPlaceArray[0];
 $width = $selectPlaceArray[1];
-$pieceArray[$length][$width] = $uerPiece;
-// echo $length;
-// echo $width;
-// echo $pieceArray[$length][$width];
+$pieceArray[$length][$width] = $userPiece;
+display($pieceArray);
 
-for ($i=0; $i < 3; $i++) { 
-
-    for ($j=0; $j < 3; $j++) { 
-
-        if ($pieceArray[$i][$j] == 0) {
-            if ($j == 3) {
-                echo "-\n";
-            }
-            else {
-                echo "-";
-            } 
-        }
-        else {
-            if ($j == 3) {
-                echo $pieceArray[$i][$j];
-                echo "\n";
-            }
-            else {
-                echo $pieceArray[$i][$j];
-            }
-        }
-
-    }
-    $j = 0;
-}
