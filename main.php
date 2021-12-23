@@ -1,9 +1,11 @@
 <?php
 
 function setTurn (): array{
-    echo "先攻か後攻を選択してください！\n";
-    echo "1:先攻,2:後攻\n";
-    $player = trim(fgets(STDIN));
+    do {
+        echo "先攻か後攻を選択してください！\n";
+        echo "1:先攻,2:後攻\n";
+        $player = trim(fgets(STDIN));
+    } while ($player  === 1 || $player === 2);
     
     if ($player == 1) {
         $cpu = 2;
@@ -15,10 +17,12 @@ function setTurn (): array{
 }
 
 function setPiece (): array {
-    echo "○がいいですか？×がいいですか？\n";
-    echo "1:○、2:×\n";
+    do {
+        echo "○がいいですか？×がいいですか？\n";
+        echo "1:○、2:×\n";
 
-    $selectInput = trim(fgets(STDIN));
+        $selectInput = trim(fgets(STDIN));
+    } while ($selectInput === 1 || $selectInput === 2);
 
     if ($selectInput == 1) {
         $playerPiece = 'o';
@@ -32,13 +36,18 @@ function setPiece (): array {
 }
 
 function selectPlace (): array {
-    echo "縦の位置を0~2で入力してください！\n";
-    $length = trim(fgets(STDIN));
+    do {
+        echo "縦の位置を0~2で入力してください！\n";
+        $length = trim(fgets(STDIN));
+    } while ($length >= 0 && $length < 3);
+    do {
+        echo "横の位置を0~2で入力してください！\n";
+        $width = trim(fgets(STDIN));
+    } while ($width >= 0 && $width < 3);
 
-    echo "横の位置を0~2で入力してください！\n";
-    $width = trim(fgets(STDIN));
     return[$length,$width];
 }
+
 function display (array $pieceArray): void {
     for ($i=0; $i < 3; $i++) { 
         for ($j=0; $j < 3; $j++) { 
