@@ -1,22 +1,20 @@
 <?php
 
 function setTurn (): array{
-    do {
-        echo "先攻か後攻を選択してください！\n";
-        echo "1:先攻,2:後攻\n";
-        $player = trim(fgets(STDIN));
-    } while ($player  === 1 || $player === 2);
+    $cpu = 1;
+    echo "先攻か後攻を選択してください！\n";
+    echo "1:先攻,2:後攻\n";
+    $player = trim(fgets(STDIN));
     
     if ($player == 1) {
         $cpu = 2;
-    }
-    else {
-        $cpu = 1;
     }
     return [$player, $cpu];
 }
 
 function setPiece (): array {
+    $playerPiece = 'x';
+    $cpuPiece    = 'o';
     do {
         echo "○がいいですか？×がいいですか？\n";
         echo "1:○、2:×\n";
@@ -28,10 +26,7 @@ function setPiece (): array {
         $playerPiece = 'o';
         $cpuPiece    = 'x';
     }
-    else {
-        $playerPiece = 'x';
-        $cpuPiece    = 'o';
-    }
+
     return [$playerPiece, $cpuPiece];
 }
 
