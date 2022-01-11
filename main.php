@@ -1,6 +1,7 @@
 <?php
 
 function setTurn (): array{
+    $cpu = 1;
     echo "先攻か後攻を選択してください！\n";
     echo "1:先攻,2:後攻\n";
     $player = trim(fgets(STDIN));
@@ -8,37 +9,40 @@ function setTurn (): array{
     if ($player == 1) {
         $cpu = 2;
     }
-    else {
-        $cpu = 1;
-    }
     return [$player, $cpu];
 }
 
 function setPiece (): array {
+    $playerPiece = 'x';
+    $cpuPiece    = 'o';
+    do{
     echo "○がいいですか？×がいいですか？\n";
     echo "1:○、2:×\n";
 
     $selectInput = trim(fgets(STDIN));
+    } while ($selectInput === 1 || $selectInput ===2);
 
     if ($selectInput == 1) {
         $playerPiece = 'o';
         $cpuPiece    = 'x';
     }
-    else {
-        $playerPiece = 'x';
-        $cpuPiece    = 'o';
-    }
+
     return [$playerPiece, $cpuPiece];
 }
 
 function selectPlace (): array {
-    echo "縦の位置を0~2で入力してください！\n";
-    $length = trim(fgets(STDIN));
-
-    echo "横の位置を0~2で入力してください！\n";
-    $width = trim(fgets(STDIN));
+    do {
+        echo "縦の位置を0~2で入力してください！\n";
+        $length = trim(fgets(STDIN));
+    } while ($length >= 0 && $length < 3);
+    do {
+        echo "横の位置を0~2で入力してください！\n";
+        $width = trim(fgets(STDIN));
+    } while($width >= 0 && $width < 3);    
+    
     return[$length,$width];
 }
+
 function display (array $pieceArray): void {
     for ($i=0; $i < 3; $i++) { 
         for ($j=0; $j < 3; $j++) { 
@@ -69,4 +73,14 @@ $length = $selectPlaceArray[0];
 $width = $selectPlaceArray[1];
 $pieceArray[$length][$width] = $userPiece;
 display($pieceArray);
+
+//cpuの入力
+do {
+    $cpuLength = rand(0,2);
+$cpuWidth = rand(0,2);
+$checkPiece = $pieceArray[$cpuLength][$cpuWidth];
+if ($checkPice == 0) {
+    $pieceArray[$cpuLength][$cpuWidth] = $cpuPiece;
+}
+} while ( $checkPice = 0);
 
