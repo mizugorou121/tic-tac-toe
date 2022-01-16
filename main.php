@@ -5,11 +5,6 @@ function setTurn (): array{
     echo "先攻か後攻を選択してください！\n";
     echo "1:先攻,2:後攻\n";
     $player = trim(fgets(STDIN));
-    do {
-        echo "先攻か後攻を選択してください！\n";
-        echo "1:先攻,2:後攻\n";
-        $player = trim(fgets(STDIN));
-    } while ($player  === 1 || $player === 2);
     
     if ($player == 1) {
         $cpu = 2;
@@ -78,14 +73,3 @@ $length = $selectPlaceArray[0];
 $width = $selectPlaceArray[1];
 $pieceArray[$length][$width] = $userPiece;
 display($pieceArray);
-
-//cpuの入力
-do {
-    $cpuLength = rand(0,2);
-    $cpuWidth = rand(0,2);
-    $checkPiece = $pieceArray[$cpuLength][$cpuWidth];
-    if ($checkPice == 0) {
-    $pieceArray[$cpuLength][$cpuWidth] = $cpuPiece;
-    }
-} while ( $checkPice = 0);
-
