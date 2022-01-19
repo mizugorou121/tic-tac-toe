@@ -73,3 +73,4 @@ $length = $selectPlaceArray[0];
 $width = $selectPlaceArray[1];
 $pieceArray[$length][$width] = $userPiece;
 display($pieceArray);
+
