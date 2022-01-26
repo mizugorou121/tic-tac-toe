@@ -1,5 +1,6 @@
 <?php
 
+//先攻後攻選択
 function setTurn (): array{
     $cpu = 1;
     echo "先攻か後攻を選択してください！\n";
@@ -12,6 +13,7 @@ function setTurn (): array{
     return [$player, $cpu];
 }
 
+//○×選択
 function setPiece (): array {
     $playerPiece = 'x';
     $cpuPiece    = 'o';
@@ -30,6 +32,7 @@ function setPiece (): array {
     return [$playerPiece, $cpuPiece];
 }
 
+//場所選択
 function selectPlace (): array {
     do {
         echo "縦の位置を0~2で入力してください！\n";
@@ -43,6 +46,7 @@ function selectPlace (): array {
     return[$length,$width];
 }
 
+//表示
 function display (array $pieceArray): void {
     for ($i=0; $i < 3; $i++) { 
         for ($j=0; $j < 3; $j++) { 
@@ -57,6 +61,14 @@ function display (array $pieceArray): void {
     }
 }
 
+function cpuselect ($pieceArray): array {
+    do {
+        $cpuLength = rand(0,2);
+        $cpuWidth = rand(0,2);
+        $checkPiece = $pieceArray[$cpuLength][$cpuWidth];
+    } while ( $checkPice = 0);
+    return [$cpuLength,$cpuWidth];
+}
 // 関数を使う
 $setTurnArray = setTurn();
 $setPieceArray = setPiece();
