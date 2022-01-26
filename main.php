@@ -61,7 +61,7 @@ function display (array $pieceArray): void {
     }
 }
 
-function cpuselect ($pieceArray): array {
+function selectCpu (array $pieceArray): array {
     do {
         $cpuLength = rand(0,2);
         $cpuWidth = rand(0,2);
@@ -69,6 +69,7 @@ function cpuselect ($pieceArray): array {
     } while ( $checkPice = 0);
     return [$cpuLength,$cpuWidth];
 }
+
 // 関数を使う
 $setTurnArray = setTurn();
 $setPieceArray = setPiece();
@@ -86,3 +87,7 @@ $width = $selectPlaceArray[1];
 $pieceArray[$length][$width] = $userPiece;
 display($pieceArray);
 
+$selectCpu = selectCpu($pieceArray);
+$cpuLength = $selectCpu[0];
+$cpuWidth = $selectCpu[1];
+$pieceArray[$cpuLength][$cpuWidth] = $cpuPiece;
