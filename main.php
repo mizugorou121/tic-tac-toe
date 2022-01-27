@@ -37,11 +37,11 @@ function selectPlace (): array {
     do {
         echo "縦の位置を0~2で入力してください！\n";
         $length = trim(fgets(STDIN));
-    } while ($length >= 0 && $length < 3);
+    } while ($length >= 0 && $length > 3);
     do {
         echo "横の位置を0~2で入力してください！\n";
         $width = trim(fgets(STDIN));
-    } while($width >= 0 && $width < 3);    
+    } while($width >= 0 && $width > 3);    
     
     return[$length,$width];
 }
@@ -51,10 +51,13 @@ function display (array $pieceArray): void {
     for ($i=0; $i < 3; $i++) { 
         for ($j=0; $j < 3; $j++) { 
             if ($pieceArray[$i][$j] === 0) {
-                echo "-";
+                echo '-';
             }
-            else {
-                echo $pieceArray[$i][$j];
+            elseif ($pieceArray[$i][$j] === 'o')  {
+                echo 'o';
+            }
+            elseif ($pieceArray[$i][$j] === 'x') {
+                echo 'x';
             }
         }
         echo "\n";
@@ -82,6 +85,7 @@ $pieceArray = [
 ];
 
 $userPiece = $setPieceArray[0];
+$cpuPiece = $setPieceArray[1];
 $length = $selectPlaceArray[0];
 $width = $selectPlaceArray[1];
 $pieceArray[$length][$width] = $userPiece;
@@ -91,3 +95,4 @@ $selectCpu = selectCpu($pieceArray);
 $cpuLength = $selectCpu[0];
 $cpuWidth = $selectCpu[1];
 $pieceArray[$cpuLength][$cpuWidth] = $cpuPiece;
+display($pieceArray);
