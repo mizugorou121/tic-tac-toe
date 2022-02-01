@@ -96,3 +96,12 @@ $cpuLength = $selectCpu[0];
 $cpuWidth = $selectCpu[1];
 $pieceArray[$cpuLength][$cpuWidth] = $cpuPiece;
 display($pieceArray);
+
+//勝敗判定
+//横一列
+if ($pieceArray[1] == ['o','o','o'] || $pieceArray[2] == ['o','o','o'] || $pieceArray[3] == ['o','o','o'] ) {
+    $check = 1;
+}
+if ($pieceArray[1] == ['x','x','x'] || $pieceArray[2] == ['x','x','x'] || $pieceArray[3] == ['o','o','o'] ) {
+    $check = 2;
+}
