@@ -73,6 +73,42 @@ function selectCpu (array $pieceArray): array {
     return [$cpuLength,$cpuWidth];
 }
 
+//勝敗判定
+function judgment (array $pieceArray,$userPiece,$cpuPiece) :void{
+    switch ($pieceArray) {
+        //縦
+        case $pieceArray[0][1] == $userPiece && $pieceArray[1][1] == $userPiece && $pieceArray[2][1] == $userPiece :
+        case $pieceArray[0][1] == $userPiece && $pieceArray[1][1] == $userPiece && $pieceArray[2][1] == $userPiece :
+        case $pieceArray[0][2] == $userPiece && $pieceArray[1][2] == $userPiece && $pieceArray[2][2] == $userPiece :
+        //横
+        case $pieceArray[0] == [$userPiece,$userPiece,$userPiece] :
+        case $pieceArray[1] == [$userPiece,$userPiece,$userPiece] :
+        case $pieceArray[2] == [$userPiece,$userPiece,$userPiece] :
+        //斜め
+        case $pieceArray[0][0] == $userPiece && $pieceArray[1][1] == $userPiece && $pieceArray[2][2] == $userPiece :
+        case $pieceArray[0][2] == $userPiece && $pieceArray[1][1] == $userPiece && $pieceArray[2][0] == $userPiece :
+            echo 'win!!';
+            break;
+        //cpu
+        //縦
+        case $pieceArray[0][1] == $cpuPiece && $pieceArray[1][1] == $cpuPiece && $pieceArray[2][1] == $cpuPiece :
+        case $pieceArray[0][1] == $cpuPiece && $pieceArray[1][1] == $cpuPiece && $pieceArray[2][1] == $cpuPiece :
+        case $pieceArray[0][2] == $cpuPiece && $pieceArray[1][2] == $cpuPiece && $pieceArray[2][2] == $cpuPiece :
+         //横
+        case $pieceArray[0] == [$cpuPiece,$cpuPiece,$cpuPiece] :
+        case $pieceArray[1] == [$cpuPiece,$cpuPiece,$cpuPiece] :
+        case $pieceArray[2] == [$cpuPiece,$cpuPiece,$cpuPiece] :
+        //斜め
+        case $pieceArray[0][0] == $cpuPiece && $pieceArray[1][1] == $cpuPiece && $pieceArray[2][2] == $cpuPiece :
+        case $pieceArray[0][2] == $cpuPiece && $pieceArray[1][1] == $cpuPiece && $pieceArray[2][0] == $cpuPiece :
+            echo 'lose!!';
+             break;
+        default:
+            echo 'draw';
+            break;
+    }
+    }
+
 // 関数を使う
 $setTurnArray = setTurn();
 $setPieceArray = setPiece();
@@ -96,12 +132,3 @@ $cpuLength = $selectCpu[0];
 $cpuWidth = $selectCpu[1];
 $pieceArray[$cpuLength][$cpuWidth] = $cpuPiece;
 display($pieceArray);
-
-//勝敗判定
-//横一列
-if ($pieceArray[1] == ['o','o','o'] || $pieceArray[2] == ['o','o','o'] || $pieceArray[3] == ['o','o','o'] ) {
-    $check = 1;
-}
-if ($pieceArray[1] == ['x','x','x'] || $pieceArray[2] == ['x','x','x'] || $pieceArray[3] == ['o','o','o'] ) {
-    $check = 2;
-}
