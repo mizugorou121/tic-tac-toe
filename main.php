@@ -73,41 +73,80 @@ function selectCpu (array $pieceArray): array {
     return [$cpuLength,$cpuWidth];
 }
 
-//勝敗判定
 function judgment (array $pieceArray,$userPiece,$cpuPiece) :void{
     switch ($pieceArray) {
         //縦
-        case $pieceArray[0][1] == $userPiece && $pieceArray[1][1] == $userPiece && $pieceArray[2][1] == $userPiece :
-        case $pieceArray[0][1] == $userPiece && $pieceArray[1][1] == $userPiece && $pieceArray[2][1] == $userPiece :
-        case $pieceArray[0][2] == $userPiece && $pieceArray[1][2] == $userPiece && $pieceArray[2][2] == $userPiece :
-        //横
-        case $pieceArray[0] == [$userPiece,$userPiece,$userPiece] :
-        case $pieceArray[1] == [$userPiece,$userPiece,$userPiece] :
-        case $pieceArray[2] == [$userPiece,$userPiece,$userPiece] :
-        //斜め
-        case $pieceArray[0][0] == $userPiece && $pieceArray[1][1] == $userPiece && $pieceArray[2][2] == $userPiece :
-        case $pieceArray[0][2] == $userPiece && $pieceArray[1][1] == $userPiece && $pieceArray[2][0] == $userPiece :
+        case pieceJudge($pieceArray, $userPiece):
             echo 'win!!';
-            break;
+            return false;
         //cpu
         //縦
-        case $pieceArray[0][1] == $cpuPiece && $pieceArray[1][1] == $cpuPiece && $pieceArray[2][1] == $cpuPiece :
-        case $pieceArray[0][1] == $cpuPiece && $pieceArray[1][1] == $cpuPiece && $pieceArray[2][1] == $cpuPiece :
-        case $pieceArray[0][2] == $cpuPiece && $pieceArray[1][2] == $cpuPiece && $pieceArray[2][2] == $cpuPiece :
-         //横
-        case $pieceArray[0] == [$cpuPiece,$cpuPiece,$cpuPiece] :
-        case $pieceArray[1] == [$cpuPiece,$cpuPiece,$cpuPiece] :
-        case $pieceArray[2] == [$cpuPiece,$cpuPiece,$cpuPiece] :
-        //斜め
-        case $pieceArray[0][0] == $cpuPiece && $pieceArray[1][1] == $cpuPiece && $pieceArray[2][2] == $cpuPiece :
-        case $pieceArray[0][2] == $cpuPiece && $pieceArray[1][1] == $cpuPiece && $pieceArray[2][0] == $cpuPiece :
+        case pieceJudge($pieceArray, $cpuPiece):
             echo 'lose!!';
-             break;
-        default:
+             return false;
+        case fullPiececheck($pieceArray):
             echo 'draw';
-            break;
+            return false;
+        default:
+        return true;
     }
-    }
+}
+
+//勝敗・続行判定
+function pieceJudge (array $pieceArray, string $piece) {
+    return  $pieceArray[0][0] == $piece && $pieceArray[1][0] == $piece && $pieceArray[2][0] == $piece ||
+            $pieceArray[0][1] == $piece && $pieceArray[1][1] == $piece && $pieceArray[2][1] == $piece ||
+            $pieceArray[0][2] == $piece && $pieceArray[1][2] == $piece && $pieceArray[2][2] == $piece ||
+            $pieceArray[0] == [$piece,$piece,$piece] ||
+            $pieceArray[1] == [$piece,$piece,$piece] ||
+            $pieceArray[2] == [$piece,$piece,$piece] ||
+            $pieceArray[0][0] == $piece && $pieceArray[1][1] == $piece && $pieceArray[2][2] == $piece ||
+            $pieceArray[0][2] == $piece && $pieceArray[1][1] == $piece && $pieceArray[2][0] == $piece;
+}
+
+//置く場所が埋まっていないか確認
+function fullPiececheck (array $pieceArray) :string{
+        $fullPiece = 1;
+        if (in_array('0',$pieceArray)) {
+        $fullPiece = 2;
+        return $fullPiece;
+}
+
+// //勝敗判定
+// function judgment (array $pieceArray, string $userPiece, string $cpuPiece) :void{
+//     switch ($pieceArray) {
+//         //縦
+//         case $pieceArray[0][0] == $userPiece && $pieceArray[1][0] == $userPiece && $pieceArray[2][0] == $userPiece :
+//         case $pieceArray[0][1] == $userPiece && $pieceArray[1][1] == $userPiece && $pieceArray[2][1] == $userPiece :
+//         case $pieceArray[2][0] == $userPiece && $pieceArray[2][1] == $userPiece && $pieceArray[2][2] == $userPiece :
+//         //横
+//         case $pieceArray[0] == [$userPiece,$userPiece,$userPiece] :
+//         case $pieceArray[1] == [$userPiece,$userPiece,$userPiece] :
+//         case $pieceArray[2] == [$userPiece,$userPiece,$userPiece] :
+//         //斜め
+//         case $pieceArray[0][0] == $userPiece && $pieceArray[1][1] == $userPiece && $pieceArray[2][2] == $userPiece :
+//         case $pieceArray[0][2] == $userPiece && $pieceArray[1][1] == $userPiece && $pieceArray[2][0] == $userPiece :
+//             echo 'win!!';
+//             break;
+//         //cpu
+//         //縦
+//         case $pieceArray[0][0] == $cpuPiece && $pieceArray[1][0] == $cpuPiece && $pieceArray[2][0] == $cpuPiece :
+//         case $pieceArray[0][1] == $cpuPiece && $pieceArray[1][1] == $cpuPiece && $pieceArray[2][1] == $cpuPiece :
+//         case $pieceArray[0][2] == $cpuPiece && $pieceArray[1][2] == $cpuPiece && $pieceArray[2][2] == $cpuPiece :
+//          //横
+//         case $pieceArray[0] == [$cpuPiece,$cpuPiece,$cpuPiece] :
+//         case $pieceArray[1] == [$cpuPiece,$cpuPiece,$cpuPiece] :
+//         case $pieceArray[2] == [$cpuPiece,$cpuPiece,$cpuPiece] :
+//         //斜め
+//         case $pieceArray[0][0] == $cpuPiece && $pieceArray[1][1] == $cpuPiece && $pieceArray[2][2] == $cpuPiece :
+//         case $pieceArray[0][2] == $cpuPiece && $pieceArray[1][1] == $cpuPiece && $pieceArray[2][0] == $cpuPiece :
+//             echo 'lose!!';
+//              break;
+//         default:
+//             echo 'draw';
+//             break;
+//     }
+//     }
 
 // 関数を使う
 $setTurnArray = setTurn();
@@ -132,3 +171,5 @@ $cpuLength = $selectCpu[0];
 $cpuWidth = $selectCpu[1];
 $pieceArray[$cpuLength][$cpuWidth] = $cpuPiece;
 display($pieceArray);
+
+
