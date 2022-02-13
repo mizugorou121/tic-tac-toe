@@ -3,8 +3,8 @@
 //先攻後攻選択
 function setTurn (): array{
     $cpu = 1;
-    echo "先攻か後攻を選択してください！\n";
-    echo "1:先攻,2:後攻\n";
+    echo '先攻か後攻を選択してください！\n';
+    echo '1:先攻,2:後攻\n';
     $player = trim(fgets(STDIN));
     
     if ($player == 1) {
@@ -18,8 +18,8 @@ function setPiece (): array {
     $playerPiece = 'x';
     $cpuPiece    = 'o';
     do{
-        echo "○がいいですか？×がいいですか？\n";
-        echo "1:○、2:×\n";
+        echo '○がいいですか？×がいいですか？\n';
+        echo '1:○、2:×\n';
 
         $selectInput = trim(fgets(STDIN));
     } while ($selectInput === 1 || $selectInput ===2);
@@ -35,11 +35,11 @@ function setPiece (): array {
 //場所選択
 function selectPlace (): array {
     do {
-        echo "縦の位置を0~2で入力してください！\n";
+        echo '縦の位置を0~2で入力してください！\n';
         $length = trim(fgets(STDIN));
     } while ($length >= 0 && $length > 3);
     do {
-        echo "横の位置を0~2で入力してください！\n";
+        echo '横の位置を0~2で入力してください！\n';
         $width = trim(fgets(STDIN));
     } while($width >= 0 && $width > 3);    
     
@@ -148,28 +148,28 @@ function fullPiececheck (array $pieceArray) :string{
 //     }
 //     }
 
-// 関数を使う
-$setTurnArray = setTurn();
-$setPieceArray = setPiece();
-$selectPlaceArray = selectPlace();
+// 関数呼び出し
+while ( judgment() ) {
+    $setTurnArray = setTurn();
+    $setPieceArray = setPiece();
+    $selectPlaceArray = selectPlace();
 
-$pieceArray = [
-    [0,0,0],
-    [0,0,0],
-    [0,0,0]
-];
+    $pieceArray = [
+        [0,0,0],
+        [0,0,0],
+        [0,0,0]
+    ];
 
-$userPiece = $setPieceArray[0];
-$cpuPiece = $setPieceArray[1];
-$length = $selectPlaceArray[0];
-$width = $selectPlaceArray[1];
-$pieceArray[$length][$width] = $userPiece;
-display($pieceArray);
+    $userPiece = $setPieceArray[0];
+    $cpuPiece = $setPieceArray[1];
+    $length = $selectPlaceArray[0];
+    $width = $selectPlaceArray[1];
+    $pieceArray[$length][$width] = $userPiece;
+    display($pieceArray);
 
-$selectCpu = selectCpu($pieceArray);
-$cpuLength = $selectCpu[0];
-$cpuWidth = $selectCpu[1];
-$pieceArray[$cpuLength][$cpuWidth] = $cpuPiece;
-display($pieceArray);
-
-
+    $selectCpu = selectCpu($pieceArray);
+    $cpuLength = $selectCpu[0];
+    $cpuWidth = $selectCpu[1];
+    $pieceArray[$cpuLength][$cpuWidth] = $cpuPiece;
+    display($pieceArray);
+}
