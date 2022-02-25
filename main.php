@@ -62,6 +62,7 @@ function display (array $pieceArray): void {
         }
         echo "\n";
     }
+    echo "\n";
 }
 
 function selectCpu (array $pieceArray): array {
@@ -73,22 +74,22 @@ function selectCpu (array $pieceArray): array {
     return [$cpuLength,$cpuWidth];
 }
 
-function judgment (array $pieceArray,$userPiece,$cpuPiece) :bool{
-    switch ($pieceArray) {
-        //user
-        case pieceJudge($pieceArray, $userPiece):
-            echo 'win!!';
-            return false;
-        //cpu
-        case pieceJudge($pieceArray, $cpuPiece):
-            echo 'lose!!';
-             return false;
-        case fullPiececheck($pieceArray) == 2:
+function judgment (array $pieceArray,string $userPiece,string $cpuPiece) :bool{
+    //user
+    if(pieceJudge($pieceArray, $userPiece)){
+        echo 'win!!';
+        return false;
+    }
+    //cpu
+    if(pieceJudge($pieceArray, $cpuPiece)){
+        echo 'lose!!';
+         return false;
+   }
+   if(fullPiececheck($pieceArray)){
             echo 'draw';
             return false;
-        default:
-        return true;
-    }
+  }
+  return true;
 }
 
 //勝敗・続行判定
@@ -104,49 +105,13 @@ function pieceJudge (array $pieceArray, string $piece) {
 }
 
 //置く場所が埋まっていないか確認
-function fullPiececheck (array $pieceArray) :string{
-        $fullPiece = 1;
-        if (in_array('0',$pieceArray)) {
-        $fullPiece = 2;
-        } 
-        return $fullPiece;
+function fullPiececheck (array $pieceArray) :bool{
+    $fullPiece = true;
+    if (in_array(0,$pieceArray)) {
+    $fullPiece = false;
+    }
+    return $fullPiece;
 }
-
-// //勝敗判定
-// function judgment (array $pieceArray, string $userPiece, string $cpuPiece) :void{
-//     switch ($pieceArray) {
-//         //縦
-//         case $pieceArray[0][0] == $userPiece && $pieceArray[1][0] == $userPiece && $pieceArray[2][0] == $userPiece :
-//         case $pieceArray[0][1] == $userPiece && $pieceArray[1][1] == $userPiece && $pieceArray[2][1] == $userPiece :
-//         case $pieceArray[2][0] == $userPiece && $pieceArray[2][1] == $userPiece && $pieceArray[2][2] == $userPiece :
-//         //横
-//         case $pieceArray[0] == [$userPiece,$userPiece,$userPiece] :
-//         case $pieceArray[1] == [$userPiece,$userPiece,$userPiece] :
-//         case $pieceArray[2] == [$userPiece,$userPiece,$userPiece] :
-//         //斜め
-//         case $pieceArray[0][0] == $userPiece && $pieceArray[1][1] == $userPiece && $pieceArray[2][2] == $userPiece :
-//         case $pieceArray[0][2] == $userPiece && $pieceArray[1][1] == $userPiece && $pieceArray[2][0] == $userPiece :
-//             echo 'win!!';
-//             break;
-//         //cpu
-//         //縦
-//         case $pieceArray[0][0] == $cpuPiece && $pieceArray[1][0] == $cpuPiece && $pieceArray[2][0] == $cpuPiece :
-//         case $pieceArray[0][1] == $cpuPiece && $pieceArray[1][1] == $cpuPiece && $pieceArray[2][1] == $cpuPiece :
-//         case $pieceArray[0][2] == $cpuPiece && $pieceArray[1][2] == $cpuPiece && $pieceArray[2][2] == $cpuPiece :
-//          //横
-//         case $pieceArray[0] == [$cpuPiece,$cpuPiece,$cpuPiece] :
-//         case $pieceArray[1] == [$cpuPiece,$cpuPiece,$cpuPiece] :
-//         case $pieceArray[2] == [$cpuPiece,$cpuPiece,$cpuPiece] :
-//         //斜め
-//         case $pieceArray[0][0] == $cpuPiece && $pieceArray[1][1] == $cpuPiece && $pieceArray[2][2] == $cpuPiece :
-//         case $pieceArray[0][2] == $cpuPiece && $pieceArray[1][1] == $cpuPiece && $pieceArray[2][0] == $cpuPiece :
-//             echo 'lose!!';
-//              break;
-//         default:
-//             echo 'draw';
-//             break;
-//     }
-//     }
 
 // 関数呼び出し
 
@@ -162,17 +127,34 @@ function fullPiececheck (array $pieceArray) :string{
         [0,0,0]
     ];
 
-    while (judgment($pieceArray,$userPiece,$cpuPiece) ) {
-        $selectPlaceArray = selectPlace();
-        $length = $selectPlaceArray[0];
-        $width = $selectPlaceArray[1];
-        $pieceArray[$length][$width] = $userPiece;
-        display($pieceArray);
+    if ($userTurn == 1) {
+        while (judgment($pieceArray,$userPiece,$cpuPiece) ) {
+            $selectPlaceArray = selectPlace();
+            $length = $selectPlaceArray[0];
+            $width = $selectPlaceArray[1];
+            $pieceArray[$length][$width] = $userPiece;
+            display($pieceArray);
+    
+            $selectCpu = selectCpu($pieceArray);
+            $cpuLength = $selectCpu[0];
+            $cpuWidth = $selectCpu[1];
+            $pieceArray[$cpuLength][$cpuWidth] = $cpuPiece;
+            display($pieceArray);
+        }
+    }
+    
+    if ($userTurn == 2) {
+        while (judgment($pieceArray,$userPiece,$cpuPiece) ) {
+            $selectCpu = selectCpu($pieceArray);
+            $cpuLength = $selectCpu[0];
+            $cpuWidth = $selectCpu[1];
+            $pieceArray[$cpuLength][$cpuWidth] = $cpuPiece;
+            display($pieceArray);
 
-        $selectCpu = selectCpu($pieceArray);
-        $cpuLength = $selectCpu[0];
-        $cpuWidth = $selectCpu[1];
-        $pieceArray[$cpuLength][$cpuWidth] = $cpuPiece;
-        echo "\n";
-        display($pieceArray);
+            $selectPlaceArray = selectPlace();
+            $length = $selectPlaceArray[0];
+            $width = $selectPlaceArray[1];
+            $pieceArray[$length][$width] = $userPiece;
+            display($pieceArray);
+        }
     }
