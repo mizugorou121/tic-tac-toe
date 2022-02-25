@@ -33,15 +33,22 @@ function setPiece (): array {
 }
 
 //場所選択
-function selectPlace (): array {
+function selectPlace (array $pieceArray): array {
+    $checkPiece = 4;
+    $length = 4;
+    $width = 4;
     do {
-        echo "縦の位置を0~2で入力してください！\n";
-        $length = trim(fgets(STDIN));
-    } while ($length >= 0 && $length > 3);
-    do {
-        echo "横の位置を0~2で入力してください！\n";
-        $width = trim(fgets(STDIN));
-    } while($width >= 0 && $width > 3);    
+        do {
+            echo "縦の位置を0~2で入力してください！\n";
+            $length = trim(fgets(STDIN));
+        } while ($length >= 0 && $length > 3);
+        do {
+            echo "横の位置を0~2で入力してください！\n";
+            $width = trim(fgets(STDIN));
+        } while($width >= 0 && $width > 3);   
+        $checkPiece = $pieceArray[$length][$width];
+    } while ( $checkPiece !== 0);
+     
     
     return[$length,$width];
 }
@@ -66,11 +73,14 @@ function display (array $pieceArray): void {
 }
 
 function selectCpu (array $pieceArray): array {
+    $checkPiece = 4;
+    $cpuLength = 4;
+    $cpuWidth = 4;
     do {
         $cpuLength = rand(0,2);
         $cpuWidth = rand(0,2);
         $checkPiece = $pieceArray[$cpuLength][$cpuWidth];
-    } while ( $checkPice = 0);
+    } while ( $checkPiece !== 0);
     return [$cpuLength,$cpuWidth];
 }
 
@@ -94,22 +104,25 @@ function judgment (array $pieceArray,string $userPiece,string $cpuPiece) :bool{
 
 //勝敗・続行判定
 function pieceJudge (array $pieceArray, string $piece) {
-    return  $pieceArray[0][0] == $piece && $pieceArray[1][0] == $piece && $pieceArray[2][0] == $piece ||
-            $pieceArray[0][1] == $piece && $pieceArray[1][1] == $piece && $pieceArray[2][1] == $piece ||
-            $pieceArray[0][2] == $piece && $pieceArray[1][2] == $piece && $pieceArray[2][2] == $piece ||
-            $pieceArray[0] == [$piece,$piece,$piece] ||
-            $pieceArray[1] == [$piece,$piece,$piece] ||
-            $pieceArray[2] == [$piece,$piece,$piece] ||
-            $pieceArray[0][0] == $piece && $pieceArray[1][1] == $piece && $pieceArray[2][2] == $piece ||
-            $pieceArray[0][2] == $piece && $pieceArray[1][1] == $piece && $pieceArray[2][0] == $piece;
+    return  $pieceArray[0][0] === $piece && $pieceArray[1][0] === $piece && $pieceArray[2][0] === $piece ||
+            $pieceArray[0][1] === $piece && $pieceArray[1][1] === $piece && $pieceArray[2][1] === $piece ||
+            $pieceArray[0][2] === $piece && $pieceArray[1][2] === $piece && $pieceArray[2][2] === $piece ||
+            $pieceArray[0] === [$piece,$piece,$piece] ||
+            $pieceArray[1] === [$piece,$piece,$piece] ||
+            $pieceArray[2] === [$piece,$piece,$piece] ||
+            $pieceArray[0][0] === $piece && $pieceArray[1][1] === $piece && $pieceArray[2][2] === $piece ||
+            $pieceArray[0][2] === $piece && $pieceArray[1][1] === $piece && $pieceArray[2][0] === $piece;
 }
 
 //置く場所が埋まっていないか確認
 function fullPiececheck (array $pieceArray) :bool{
     $fullPiece = true;
-    if (in_array(0,$pieceArray)) {
-    $fullPiece = false;
+    for ($i = 0; $i < 3; $i++){
+        if (in_array(0,array_column($pieceArray, $i))) {
+            $fullPiece = false;
+        }
     }
+
     return $fullPiece;
 }
 
@@ -129,7 +142,7 @@ function fullPiececheck (array $pieceArray) :bool{
 
     if ($userTurn == 1) {
         while (judgment($pieceArray,$userPiece,$cpuPiece) ) {
-            $selectPlaceArray = selectPlace();
+            $selectPlaceArray = selectPlace($pieceArray);
             $length = $selectPlaceArray[0];
             $width = $selectPlaceArray[1];
             $pieceArray[$length][$width] = $userPiece;
@@ -151,7 +164,7 @@ function fullPiececheck (array $pieceArray) :bool{
             $pieceArray[$cpuLength][$cpuWidth] = $cpuPiece;
             display($pieceArray);
 
-            $selectPlaceArray = selectPlace();
+            $selectPlaceArray = selectPlace($pieceArray);
             $length = $selectPlaceArray[0];
             $width = $selectPlaceArray[1];
             $pieceArray[$length][$width] = $userPiece;
