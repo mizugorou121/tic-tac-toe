@@ -1,16 +1,15 @@
 <?php
 
 //先攻後攻選択
-function setTurn (): array{
-    $cpu = 1;
+function setTurn (): bool{
     echo "先攻か後攻を選択してください！\n";
     echo "1:先攻,2:後攻\n";
     $player = trim(fgets(STDIN));
-    
+    // true=先攻
     if ($player == 1) {
-        $cpu = 2;
+        return true;
     }
-    return [$player, $cpu];
+    return false;
 }
 
 //○×選択
@@ -126,12 +125,46 @@ function fullPiececheck (array $pieceArray) :bool{
     return $fullPiece;
 }
 
-// 関数呼び出し
+function userFlow (array $pieceArray, string $userPiece) :void{
+    $selectPlaceArray = selectPlace($pieceArray);
+            $length = $selectPlaceArray[0];
+            $width = $selectPlaceArray[1];
+            $pieceArray[$length][$width] = $userPiece;
+            display($pieceArray);
+}
 
-    $setTurnArray = setTurn();
+ function cpuFlow (array $pieceArray, string $cpuPiece) :void{
+     $selectCpu = selectCpu($pieceArray);
+     $cpuLength = $selectCpu[0];
+     $cpuWidth = $selectCpu[1];
+     $pieceArray[$cpuLength][$cpuWidth] = $cpuPiece;
+     display($pieceArray);
+ }
+
+// function userFlow (array $pieceArray, string $userPiece) :array{
+//     $selectPlaceArray = selectPlace($pieceArray);
+//     $length = $selectPlaceArray[0];
+//     $width = $selectPlaceArray[1];
+//     $pieceArray[$length][$width] = $userPiece;
+//     display($pieceArray);
+//     return $pieceArray;
+
+// }
+
+// function cpuFlow (array $pieceArray, string $cpuPiece) :array{
+//     $selectCpu = selectCpu($pieceArray);
+//     $cpuLength = $selectCpu[0];
+//     $cpuWidth = $selectCpu[1];
+//     $pieceArray[$cpuLength][$cpuWidth] = $cpuPiece;
+//     display($pieceArray);
+//     return $pieceArray;
+// }
+
+// 関数呼び出し
+    $isUserFirst = setTurn();
     $setPieceArray = setPiece();
-    $userTurn = $setTurnArray[0];
-    $cpuTurn = $setTurnArray[1];
+    // $userTurn = $setTurnArray[0];
+    // $cpuTurn = $setTurnArray[1];
     $userPiece = $setPieceArray[0];
     $cpuPiece = $setPieceArray[1];
     $pieceArray = [
@@ -140,34 +173,15 @@ function fullPiececheck (array $pieceArray) :bool{
         [0,0,0]
     ];
 
-    if ($userTurn == 1) {
+    if ($isUserFirst) {
         while (judgment($pieceArray,$userPiece,$cpuPiece) ) {
-            $selectPlaceArray = selectPlace($pieceArray);
-            $length = $selectPlaceArray[0];
-            $width = $selectPlaceArray[1];
-            $pieceArray[$length][$width] = $userPiece;
-            display($pieceArray);
-    
-            $selectCpu = selectCpu($pieceArray);
-            $cpuLength = $selectCpu[0];
-            $cpuWidth = $selectCpu[1];
-            $pieceArray[$cpuLength][$cpuWidth] = $cpuPiece;
-            display($pieceArray);
+            userFlow($pieceArray,$userPiece);
+            cpuFlow($pieceArray,$cpuPiece);
         }
     }
-    
-    if ($userTurn == 2) {
+    else {
         while (judgment($pieceArray,$userPiece,$cpuPiece) ) {
-            $selectCpu = selectCpu($pieceArray);
-            $cpuLength = $selectCpu[0];
-            $cpuWidth = $selectCpu[1];
-            $pieceArray[$cpuLength][$cpuWidth] = $cpuPiece;
-            display($pieceArray);
-
-            $selectPlaceArray = selectPlace($pieceArray);
-            $length = $selectPlaceArray[0];
-            $width = $selectPlaceArray[1];
-            $pieceArray[$length][$width] = $userPiece;
-            display($pieceArray);
+            cpuFlow($pieceArray,$cpuPiece);
+            userFlow($pieceArray,$userPiece);
         }
     }
