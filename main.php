@@ -1,7 +1,7 @@
 <?php
 class User {
     //ユーザー○×場所選択
-    public function selectPlace (array $pieceArray): array {
+    private function selectPlace (array $pieceArray): array {
         $checkPiece = 4;
         $length = 4;
         $width = 4;
@@ -22,8 +22,7 @@ class User {
     //ユーザー処理
     public function userFlow (array $pieceArray, string $userPiece) :array{
         $game = new Game();
-        $user = new User();
-        $selectPlaceArray = $user->selectPlace($pieceArray);
+        $selectPlaceArray = $this->selectPlace($pieceArray);
         $length = $selectPlaceArray[0];
         $width = $selectPlaceArray[1];
         $pieceArray[$length][$width] = $userPiece;
@@ -37,7 +36,7 @@ class User {
 
 class Cpu {
     //cpu○×場所選択
-    public function selectCpu (array $pieceArray): array {
+    private function selectCpu (array $pieceArray): array {
         $checkPiece = 4;
         $cpuLength = 4;
         $cpuWidth = 4;
@@ -52,8 +51,7 @@ class Cpu {
     //cpu処理
     public function cpuFlow (array $pieceArray, string $cpuPiece) :array{
         $game = new Game();
-        $cpu = new Cpu();
-        $selectCpu = $cpu->selectCpu($pieceArray);
+        $selectCpu = $this->selectCpu($pieceArray);
         $cpuLength = $selectCpu[0];
         $cpuWidth = $selectCpu[1];
         $pieceArray[$cpuLength][$cpuWidth] = $cpuPiece;
@@ -141,53 +139,52 @@ class Game {
 
     //勝敗・続行判定
     public function judgment (array $pieceArray,string $userPiece,string $cpuPiece) :bool{
-        $game = new Game();
         //user
-        if($game->pieceJudge($pieceArray, $userPiece)){
+        if($this->pieceJudge($pieceArray, $userPiece)){
             echo 'win!!';
             return false;
         }
         //cpu
-        if($game->pieceJudge($pieceArray, $cpuPiece)){
+        if($this->pieceJudge($pieceArray, $cpuPiece)){
             echo 'lose!!';
              return false;
        }
-       if($game->fullPiececheck($pieceArray)){
+       if($this->fullPiececheck($pieceArray)){
                 echo 'draw';
                 return false;
       }
       return true;
     }
+    function gameFlow() :void{ 
+        $user = new User();
+        $cpu = new Cpu();
+    
+    // 関数呼び出し
+        $setPieceArray = $this->setPiece();
+        $userPiece = $setPieceArray[0];
+        $cpuPiece = $setPieceArray[1];
+        $pieceArray = [
+            [0,0,0],
+            [0,0,0],
+            [0,0,0]
+        ];
+    
+        if ($this->setTurn()) {
+            while ($this->judgment($pieceArray,$userPiece,$cpuPiece) ) {
+                $pieceArray = $user->userFlow($pieceArray,$userPiece);
+                $pieceArray = $cpu->cpuFlow($pieceArray,$cpuPiece);
+            }
+        }
+        else {
+            while ($this->judgment($pieceArray,$userPiece,$cpuPiece) ) {
+                $pieceArray = $cpu->cpuFlow($pieceArray,$cpuPiece);
+                $pieceArray = $user->userFlow($pieceArray,$userPiece);
+            }
+        }
+    }
 }
 
 //----------------------------------------------------------------------
 
-$user = new User();
-$cpu = new Cpu();
-$game = new Game();
-
-// 関数呼び出し
-    $isUserFirst = $game->setTurn();
-    $setPieceArray = $game->setPiece();
-    // $userTurn = $setTurnArray[0];
-    // $cpuTurn = $setTurnArray[1];
-    $userPiece = $setPieceArray[0];
-    $cpuPiece = $setPieceArray[1];
-    $pieceArray = [
-        [0,0,0],
-        [0,0,0],
-        [0,0,0]
-    ];
-
-    if ($isUserFirst) {
-        while ($game->judgment($pieceArray,$userPiece,$cpuPiece) ) {
-            $pieceArray = $user->userFlow($pieceArray,$userPiece);
-            $pieceArray = $cpu->cpuFlow($pieceArray,$cpuPiece);
-        }
-    }
-    else {
-        while ($game->judgment($pieceArray,$userPiece,$cpuPiece) ) {
-            $pieceArray = $cpu->cpuFlow($pieceArray,$cpuPiece);
-            $pieceArray = $user->userFlow($pieceArray,$userPiece);
-        }
-    }
+$game = new Game;
+$game->gameFlow();
